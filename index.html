@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS3 & JS Advanced Assignment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      transition: background-color 0.5s, color 0.5s;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    button:hover {
+      background-color: #007BFF;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    #box {
+      width: 100px;
+      height: 100px;
+      background-color: tomato;
+      margin-top: 20px;
+    }
+
+    .animate {
+      animation: bounce 1s ease;
+    }
+
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-50px); }
+      100% { transform: translateY(0); }
+    }
+
+    body.light {
+      background-color: #fff;
+      color: #000;
+    }
+
+    body.dark {
+      background-color: #121212;
+      color: #eee;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Animation Playground</h1>
+  <button id="animateBtn">Animate Me</button>
+  <div id="box"></div>
+
+  <h2>Set Your Theme</h2>
+  <select id="themeSelect">
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
+
+  <script>
+    // Animate button click
+    document.getElementById('animateBtn').addEventListener('click', () => {
+      const box = document.getElementById('box');
+      box.classList.remove('animate');
+      void box.offsetWidth; // restart animation
+      box.classList.add('animate');
+    });
+
+    // Theme selector with localStorage
+    const themeSelect = document.getElementById('themeSelect');
+    const savedTheme = getPreference('theme');
+
+    if (savedTheme) {
+      applyTheme(savedTheme);
+      themeSelect.value = savedTheme;
+    }
+
+    themeSelect.addEventListener('change', () => {
+      const theme = themeSelect.value;
+      applyTheme(theme);
+      storePreference('theme', theme);
+    });
+
+    // Store preference in localStorage
+    function storePreference(key, value) {
+      localStorage.setItem(key, value);
+    }
+
+    // Retrieve preference from localStorage
+    function getPreference(key) {
+      return localStorage.getItem(key);
+    }
+
+    // Apply theme to body
+    function applyTheme(theme) {
+      document.body.className = theme;
+    }
+  </script>
+</body>
+</html>
